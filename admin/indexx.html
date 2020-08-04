@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>V5Virtual Design</title>
+        <link href="../myform/dist/css/styles.css" rel="stylesheet" />
+        <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+        <script>
+		function logout(){
+  firebase.auth().signOut();
+                    window.location.href = "index.html";
+
+}
+</script>
+        <style>
+		.card-footer-item
+{
+	
+	padding:5px;
+	border-radius:5px;
+	color:#FFF;
+	background-color:#F00;
+	
+}
+</style>
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <a class="navbar-brand" href="#"><img src="../assets/images/logo.png" width="80">V5 Virtual Design</a><button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button
+            ><!-- Navbar Search-->
+            
+            <!-- Navbar-->
+            <ul class="navbar-nav ml-auto ml-md-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                      <button class="dropdown-item" onClick="logout()">Logout</button>
+                       
+                  </div>
+                </li>
+            </ul>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading">Core</div>
+                            <a class="nav-link" href="indexx.html"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Dashboard</a
+                            >
+                           
+                            
+                            
+                    </div>
+                    
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid">
+                        <h1 class="mt-4">Admin Panel</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active">Dashboard</li>
+                        </ol>
+                        
+                        <div id="list-of-posts" ></div>
+                        
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Your Website 2020 | Design By Accelstack infotech Pvt LTD</div>
+                            
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="../myform/dist/js/scripts.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="../myform/dist/assets/demo/chart-area-demo.js"></script>
+        <script src="../myform/dist/assets/demo/chart-bar-demo.js"></script>
+        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+        <script src="../myform/dist/assets/demo/datatables-demo.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.7.1/firebase.js"></script> 
+    <script>
+  // Initialize Firebase
+  var config = {
+       apiKey: "AIzaSyCehGmqmn9I41uyTV0ojRY9zg-bkE1-_3Y",
+    authDomain: "v5virtualdesignweb.firebaseapp.com",
+    databaseURL: "https://v5virtualdesignweb.firebaseio.com",
+    projectId: "v5virtualdesignweb",
+    storageBucket: "v5virtualdesignweb.appspot.com",
+    messagingSenderId: "979107330213",
+    appId: "1:979107330213:web:49f0ffc98232533430f54c",
+    measurementId: "G-KZ1Y5PQEWT"
+  };
+  firebase.initializeApp(config);
+    
+    firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+      
+    // User is signed in.
+
+  } else {
+    // No user is signed in.
+
+       window.location.href = "index.html";
+
+  }
+});
+
+    
+    function logout(){
+  firebase.auth().signOut();
+            window.location.href = "index.html";
+
+}
+    
+    let db = firebase.database();
+    
+    
+    
+    
+    
+    // READ
+let list = document.getElementById("list-of-posts");
+let listRef = db.ref("/CONTACTUS");
+
+listRef.on("child_added", data => {
+  let titleId = data.key;
+  let title = data.val().NAME;
+  let content = data.val().EMAIL;
+  let url = data.val().PHONE;
+  let query = data.val().QUERY;
+
+
+  let div = document.createElement("div");
+  div.id = titleId;
+  div.setAttribute("class", "column");
+  div.innerHTML = card(titleId, title, content, url,query);
+  list.appendChild(div);
+});
+
+list.addEventListener("click", e => {
+  let listNode = e.target.parentNode.parentNode;
+
+  // UPDATE
+  if (e.target.id == "edit") {
+    titleId.value = listNode.querySelector("#data-titleId").innerText;
+    title.value = listNode.querySelector("#data-title").innerText;
+    content.value = listNode.querySelector("#data-content").innerText;
+    url.value = listNode.querySelector("#data-url").innerText;
+  }
+
+  // DELETE
+  if (e.target.id == "delete") {
+    if (confirm("Are you sure?")) {
+      let id = listNode.querySelector("#data-titleId").innerText;
+      db.ref("/CONTACTUS").child(id).remove();
+    }
+  }
+});
+
+listRef.on("child_changed", data => {
+  let titleId = data.key;
+  let title = data.val().NAME;
+  let content = data.val().EMAIL;
+  let url = data.val().PHONE;
+  let query = data.val().QUERY;
+
+
+  let listNode = document.getElementById(titleId);
+  listNode.innerHTML = card(titleId, title, content, url, query);
+});
+
+listRef.on("child_removed", data => {
+  let listNode = document.getElementById(data.key);
+  listNode.parentNode.removeChild(listNode);
+});
+
+function card(titleId, title, content, url, query) {
+  return `
+  <div class="card" style="box-shadow: 0 20px 50px rgba(29, 41, 48, 0.3);">
+    <header class="card-header" >
+	
+       <strong class=""><p  id="data-title">${title}</p></strong>
+      <p class="card-header-title" id="data-title">${url}</p>
+      <p class="card-header-title"  id="data-title">${content}</p>
+
+
+    </header>
+    <div class="card-content" style="padding:3px">
+      <span id="data-content">${query}</span><span id="data-titleId" hidden>${titleId}</span>
+
+    </div>
+    <footer class="card-footer">
+      <a class="card-footer-item" style="color:white" id="delete">Delete</a>
+    </footer>
+  </div>
+  <br>
+  `;
+}
+
+    
+    
+    
+        </script>
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    </body>
+</html>
